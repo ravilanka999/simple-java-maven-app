@@ -44,7 +44,7 @@ stages {
             success {
                 dir("test-pipeline/target")
                 {
-                    stash name: "maven-build", includes: "*.jar"
+                    stash name: "my-app-1.0-SNAPSHOT", includes: "*.jar"
                 }
                     }
                  }
