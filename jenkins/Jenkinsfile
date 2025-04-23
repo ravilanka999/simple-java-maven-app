@@ -1,12 +1,8 @@
 pipeline 
 {
 
-agent {
-  label 'DevServer'
-}
-
 parameters {
-  string defaultValue: 'Ravi', name: 'FIRSTNAME'
+  choice choices: ['dev', 'prod'], name: 'select_environment'
 }
 
 environment{
@@ -21,37 +17,43 @@ stages {
     stage('Build')
     {
             steps {
-                sh 'mvn clean package'
-                echo "hello $NAME  ${params.FIRSTNAME}"
-            }
-
+                sh 'mvn clean package -DskipTests=true'
             
     }
 
-     stage('test')
+    stage('test')
      {
         parallel {
             stage('testA')
             {
+               agent { label 'DevServer'}
                steps {
                  echo "this is test A"
+                 sh "mvn test"
                }
             }
             stage('testB')
             {
+                agent { label 'DevServer'}
                 steps {
                     echo "this is test B"
+                    sh "mvn test"
                 }
             }
         }
 
         post {
             success {
-           archiveArtifacts artifacts: '**/target/*.jar'
+                dir("test-pipeline/target")
+                {
+                    stash name: "maven-build", includes: "*.jar"
+                }
                     }
                  }
 
      }
+
         
     }
+}
 }
