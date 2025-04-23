@@ -10,9 +10,9 @@ tools {
   maven 'my-maven'
 }
 
-stages 
-{
-    stage('Build')
+stages {
+
+    stage('build')
     {
             steps {
                 sh 'mvn clean package -DskipTests=true'
