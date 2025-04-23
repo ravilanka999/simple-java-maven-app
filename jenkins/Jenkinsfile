@@ -3,6 +3,10 @@ pipeline
 agent {
   label 'DevServer'
 }
+tools {
+  maven 'my-maven'
+}
+
 stages {
     stage('Build') {
             steps {
