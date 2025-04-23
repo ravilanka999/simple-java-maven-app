@@ -18,19 +18,40 @@ tools {
 }
 
 stages {
-    stage('Build') {
+    stage('Build')
+    {
             steps {
                 sh 'mvn clean package'
                 echo "hello $NAME  ${params.FIRSTNAME}"
             }
 
-            post {
+            
+    }
+
+     stage('test')
+     {
+        parallel {
+            stage('testA')
+            {
+               steps {
+                 echo "this is test A"
+               }
+            }
+            stage('testB')
+            {
+                steps {
+                    echo "this is test B"
+                }
+            }
+        }
+
+        post {
             success {
            archiveArtifacts artifacts: '**/target/*.jar'
                     }
                  }
 
-        }
+     }
         
     }
 }
