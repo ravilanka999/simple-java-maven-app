@@ -10,7 +10,8 @@ tools {
   maven 'my-maven'
 }
 
-stages {
+stages 
+{
     stage('Build')
     {
             steps {
