@@ -1,8 +1,18 @@
 pipeline 
 {
+
 agent {
   label 'DevServer'
 }
+
+parameters {
+  string defaultValue: 'Ravi', name: 'FIRSTNAME'
+}
+
+environment{
+    NAME = "Lanka"
+}
+
 tools {
   maven 'my-maven'
 }
@@ -11,6 +21,7 @@ stages {
     stage('Build') {
             steps {
                 sh 'mvn clean package'
+                echo "hello $NAME  ${params.LASTNAME}"
             }
 
             post {
